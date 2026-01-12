@@ -36,47 +36,7 @@ st.set_page_config(page_title="UHAS Email Generator", page_icon="📧", layout="
 st.title("UHAS Student Email Generator")
 st.write("Generate institutional emails for **Regular** and **Sandwich** students automatically.")
 
-# -------------------------
-# ⚙️ SESSION STATE - SCHOOL MAPPING
-# -------------------------
-if "school_mapping" not in st.session_state:
-    st.session_state.school_mapping = {
-        "sonam": ["Nursing", "Midwifery", "Public Health Nursing", "Master of Philosophy"],
-        "sph": ["Public Health", "Health Promotion", "Disease Control", "Environmental Health", "Nutrition"],
-        "sahs": ["Dietetics", "Medical Laboratory Sciences", "Orthotics and Prosthetics", "Physiotherapy"]
-    }
 
-# -------------------------
-# 🧭 SIDEBAR - MAPPING EDITOR
-# -------------------------
-st.sidebar.header("School–Programme Mapping")
-
-selected_school = st.sidebar.selectbox("Select a School", list(st.session_state.school_mapping.keys()))
-current_programmes = st.session_state.school_mapping[selected_school]
-
-st.sidebar.write("### Current Programmes")
-st.sidebar.write(", ".join(current_programmes))
-
-# Add new programme to existing school
-new_prog = st.sidebar.text_input("Add a new Programme:")
-if st.sidebar.button("Add Programme"):
-    if new_prog:
-        if new_prog not in st.session_state.school_mapping[selected_school]:
-            st.session_state.school_mapping[selected_school].append(new_prog)
-            st.sidebar.success(f"Added '{new_prog}' to {selected_school}")
-        else:
-            st.sidebar.warning("Programme already exists.")
-
-# Add a new school
-new_school = st.sidebar.text_input("Add a new School Code (e.g., sop):")
-new_school_prog = st.sidebar.text_input("Initial Programme for new school:")
-if st.sidebar.button("Add New School"):
-    if new_school and new_school_prog:
-        if new_school not in st.session_state.school_mapping:
-            st.session_state.school_mapping[new_school] = [new_school_prog]
-            st.sidebar.success(f"Added new school '{new_school}' with programme '{new_school_prog}'")
-        else:
-            st.sidebar.warning("School already exists.")
 
 # -------------------------
 # 🎓 MAIN FORM - USER INPUTS

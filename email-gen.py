@@ -75,6 +75,14 @@ if uploaded_file:
             st.error("⚠️ Could not detect 'Programme' column.")
             st.stop()
 
+        # -------------------------
+        # Detect Phone Column
+        # -------------------------
+        phone_col = next(   
+            (c for c in df.columns if "phone" in c.lower() or "mobile" in c.lower()),
+            None
+        )
+
         # Handle names
         if "Fullname" in df.columns or "Name" in df.columns:
             name_col = "Fullname" if "Fullname" in df.columns else "Name"
@@ -112,7 +120,7 @@ if uploaded_file:
     "Department": df["Department"],
     "Office number": "",
     "Office phone": "",
-    "Mobile phone": ["Mobile phone"],
+    "Mobile phone": df[phone_col] if phone_col else "",
     "Fax": "",
     "Alternate email address": df["Email"],
     "Address": "",

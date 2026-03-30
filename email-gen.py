@@ -114,11 +114,15 @@ with col2:
     admission_year = st.selectbox("Select Admission Year", [2025, 2026])
 
 # FILE UPLOAD
-uploaded_file = st.file_uploader("📂 Upload Excel file", type=["xlsx"])
+uploaded_file = st.file_uploader("📂 Upload Excel file", type=["xlsx", "csv"])
 
 if uploaded_file:
     try:
-        df = pd.read_excel(uploaded_file)
+        # Check file extension and read accordingly
+        if uploaded_file.name.endswith('.csv'):
+            df = pd.read_csv(uploaded_file)
+        else:
+            df = pd.read_excel(uploaded_file)
         st.write("### Preview of Uploaded File")
         st.dataframe(df.head())
 
